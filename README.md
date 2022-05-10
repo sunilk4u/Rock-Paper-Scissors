@@ -9,4 +9,4 @@ This is a JavaScript based Rock, Paper and Scissors game. It is a excercise for 
 * Debugging in developers console.
 
 ## Screenshot
-![Console Log](/Rock-Paper-Scissors/console.jpg)
+![Console Log](./console.jpg)
