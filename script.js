@@ -2,16 +2,17 @@ function computerPlay() {
   let rand = Math.random() * 10 + 1;
 
   if (rand >= 1 && rand <= 3) {
-    return "rock";
+    return "Rock";
   } else if (rand >= 4 && rand <= 6) {
-    return "paper";
+    return "Paper";
   } else {
-    return "scissor";
+    return "Scissor";
   }
 }
 
 function playRound(playerSelection, computerSelection) {
   playerSelection = playerSelection.toLowerCase();
+  computerSelection =computerSelection.toLowerCase();
 
   if (playerSelection === "rock" && computerSelection === "rock") {
     return -1;
@@ -34,32 +35,46 @@ function playRound(playerSelection, computerSelection) {
   }
 }
 
-function game() {
-  let userScore = 0;
-  let compScore = 0;
-  
-  for (let i = 0; i < 5; i++) {
-    const playerSelection = prompt("Enter you input");
-    const computerSelection = computerPlay();
-    console.log("Player Selection : " + playerSelection + " - Computer Selection : " + computerSelection);
-    let round = playRound(playerSelection, computerSelection);
+let userScore = 0;
+let compScore = 0;
+let resultText = "";
 
-    if(round === 1) {
-        console.log("You win!");
-        userScore++;
-    }
-    else if(round === 0) {
-        console.log("Yoy lose!");
-        compScore++;
-    }
-    else{
-        console.log("Draw!");
-        userScore++;
-        compScore++;
-    }
+function game(playerSelection, computerSelection) {
+  let round = playRound(playerSelection, computerSelection);
+  if (round === 1) {
+    resultText = "You win!";
+    userScore++;
+  } else if (round === 0) {
+    resultText = "You lose!";
+    compScore++;
+  } else {
+    resultText = "Draw!";
   }
-
-  console.log("Your score : " + userScore + " | Compute Score : " + compScore);
 }
 
-game();
+function doSome(e) {
+  const playerSelection = e.target.innerText;
+  const computerSelection = computerPlay();
+
+  document.getElementsByClassName("user_choice")[0].innerText = playerSelection;
+  document.getElementsByClassName("computer_choice")[0].innerText =
+    computerSelection;
+
+  game(playerSelection, computerSelection);
+
+  document.getElementsByClassName("user-score")[0].innerText = userScore;
+  document.getElementsByClassName("computer-score")[0].innerText = compScore;
+
+  if (userScore >= 5) {
+    resultText = "User won the match!";
+    buttons.forEach(button => button.disabled = true);
+  } else if (compScore >= 5) {
+    resultText = "Computer won the match!";
+    buttons.forEach(button => button.disabled = true);
+  }
+
+  document.getElementsByClassName("display_result")[0].innerText = resultText;
+}
+
+const buttons = document.querySelectorAll("button");
+buttons.forEach((button) => button.addEventListener("click", doSome));
